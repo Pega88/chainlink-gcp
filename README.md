@@ -8,7 +8,7 @@ You will also need to install [Terraform](https://www.terraform.io/). This setup
 ## Basic Installation
 The most basic installation can be done running `setup.sh`. You will need to fill the value for the `GCP_PROJECT_ID` variable. Once filled, it can be run using
 
-`sh setup.sh`
+`$sh setup.sh`
 
 This will take following steps:
 1. Enable required API's
