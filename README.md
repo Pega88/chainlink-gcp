@@ -1,4 +1,4 @@
-#Chainlink node running on Kubernetes
+# Chainlink node running on Kubernetes
 
 ## Prerequisits
 In order to have a smooth installation, it is assumed you have created a project on Google Cloud Platform and have installed and authenticated the [GCloud SDK](https://cloud.google.com/sdk/install).
