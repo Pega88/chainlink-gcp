@@ -1,1 +1,3 @@
 .DS_Store
+terraform/key.json
+terraform/.terraform
