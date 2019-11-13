@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chainlink-node
+  labels:
+    app: chainlink
+    network: ropsten
+spec:
+  selector:
+    app: chainlink
+    network: ropsten
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 6688
+  type: LoadBalancer

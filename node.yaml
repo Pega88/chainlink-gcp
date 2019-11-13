@@ -1,0 +1,49 @@
+#kubectl create configmap env-file --from-env-file=config/.env
+#kubectl create secret generic api-credentials --from-file=config/.api
+#kubectl create secret generic wallet-password  --from-file=config/.password
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chainlink-node
+  labels:
+    app: chainlink
+    network: ropsten
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chainlink
+      network: ropsten
+  template:
+    metadata:
+      labels:
+        app: chainlink
+        network: ropsten
+    spec:
+      containers:
+      - name: chainlink-node
+        #TODO change to specific version filled with TF, latest might be cached by node
+        image: smartcontract/chainlink:latest
+        args: ["local", "n","-p","/chainlink/.password", "-a", "/chainlink/.api"]
+        envFrom:
+        - configMapRef:
+            name: env-file
+        ports:
+        - containerPort: 6688
+        volumeMounts:
+          - name: api-credentials
+            mountPath: /chainlink/.api
+            subPath: .api
+            readOnly: true
+          - name: wallet-password
+            mountPath: /chainlink/.password
+            subPath: .password
+            readOnly: true
+      volumes:
+        - name: api-credentials
+          secret:
+            secretName: api-credentials
+        - name: wallet-password
+          secret:
+            secretName: wallet-password
