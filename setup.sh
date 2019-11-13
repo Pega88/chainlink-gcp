@@ -1,11 +1,10 @@
 #!/bin/bash
 
-export GCP_PROJECT_ID=pega88-dlt
+export GCP_PROJECT_ID=ENTER_YOUR_PROJECT_ID_HERE
 export SA_DESC="chainlink terraform service account"
 export SA_NAME=cl-terraform
 
 echo "project_name= \"$GCP_PROJECT_ID\"" >> terraform/chainlink.tfvars
-
 
 #enable the required API Services
 gcloud services enable compute.googleapis.com --project $GCP_PROJECT_ID
