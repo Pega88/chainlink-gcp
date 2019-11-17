@@ -53,9 +53,9 @@ resource "kubernetes_secret" "api-credentials" {
   }
 
   data = {
-    api-username = "user@example.com"
-    api-password = "${random_password.api-password.result}"
-    api-password-full = "user@example.com"."${random_password.api-password.result}"
+    api-username      = "user@example.com"
+    api-password      = "${random_password.api-password.result}"
+    api-password-full = "user@example.com${random_password.api-password.result}"
 
   }
 }
