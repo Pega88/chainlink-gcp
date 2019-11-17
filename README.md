@@ -46,6 +46,9 @@ gcloud services enable cloudresourcemanager.googleapis.com --project $PROJECT_ID
 #create Service Account
 gcloud iam service-accounts create $SA_NAME --display-name=$SA_DESC --project $PROJECT_ID
 
+#SA needs some time to propagate before we can get its email
+sleep 5
+
 #extract the email from the newly generated Service Account
 SA_EMAIL=$(gcloud --project $PROJECT_ID iam service-accounts list \
     --filter="displayName:$SA_DESC" \
