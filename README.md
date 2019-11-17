@@ -25,10 +25,10 @@ git clone https://github.com/Pega88/chainlink-gcp
 cd chainlink-gcp
 ```
 ### 2. Preparing your environment
-Follow [Google's documentation](https://cloud.google.com/resource-manager/docs/creating-managing-projects) and create a new project and __enable billing__ on the project. If you are a new user you might be elegible to use the [Free Tier](https://cloud.google.com/free/), currently $300. Once done, fill your project ID in the variable below and execute all commands in your Terminal.
+Follow [Google's documentation](https://cloud.google.com/resource-manager/docs/creating-managing-projects) and create a new project and __enable billing__ on the project. If you are a new user you might be elegible to use the [Free Tier](https://cloud.google.com/free/), currently $300. Once done, fill your project ID in the variable below and execute all commands in your Terminal. Make sure to use the __project ID__, not the project number nor the project display name.
 
 ```bash
-#our project id - must be unique
+#The ID of the project you just created.
 export PROJECT_ID=ENTER_YOUR_PROJECT_ID_HERE
 #the description and name for the Service Account
 export SA_DESC="chainlink terraform service account"
