@@ -46,17 +46,6 @@ resource "random_string" "wallet-password" {
   override_special = "/@£$"
 }
 
-resource "local_file" "api" {
-  content  = "user@example.com\n${random_string.api-password.result}"
-  filename = "config/.api"
-}
-
-resource "local_file" "password" {
-  content  = "${random_string.wallet-password.result}"
-  filename = "config/.password"
-}
-
-
 resource "kubernetes_secret" "api-credentials" {
   metadata {
     name      = "api-credentials"
@@ -64,7 +53,7 @@ resource "kubernetes_secret" "api-credentials" {
   }
 
   data = {
-    api = "${file("${local_file.api}")}"
+    api = "user@example.com\n${random_string.api-password.result}"
   }
 }
 
@@ -75,7 +64,7 @@ resource "kubernetes_secret" "password-credentials" {
   }
 
   data = {
-    password = "${file("${local_file.password}")}"
+    password = "${random_string.wallet-password.result}"
   }
 }
 
