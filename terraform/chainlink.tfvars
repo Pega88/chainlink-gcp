@@ -4,4 +4,4 @@
 #gcp_zone      = "europe-west1-c"pega88-dlt
 
 #required: project_name - filled through instructions
-project_name= "REPLACE_ME_WITH_PROJECT_ID"
+project_name= "niels-cl-test-4"
