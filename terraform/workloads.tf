@@ -53,7 +53,7 @@ resource "kubernetes_secret" "api-credentials" {
   }
 
   data = {
-    api = "user@example.com\n${random_string.api-password.result}"
+    api = "user@example.com${random_string.api-password.result}"
   }
 }
 
