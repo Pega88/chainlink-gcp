@@ -10,9 +10,9 @@ data "google_client_config" "default" {
   Configure provider
  *****************************************/
 provider "kubernetes" {
-  load_config_file = false
-  host = "https://${google_container_cluster.gke-cluster.endpoint}"
-  token = "${data.google_client_config.default.access_token}"
+  load_config_file       = false
+  host                   = "https://${google_container_cluster.gke-cluster.endpoint}"
+  token                  = "${data.google_client_config.default.access_token}"
   cluster_ca_certificate = "${base64decode(google_container_cluster.gke-cluster.master_auth.0.cluster_ca_certificate)}"
 }
 
@@ -23,12 +23,16 @@ resource "kubernetes_namespace" "chainlink" {
   }
 }
 
-# resource "kubernetes_config_map" "spinnaker_helm" {
-#   metadata {
-#     name      = "spinnaker-helm"
-#     namespace = "${kubernetes_namespace.devops.metadata.0.name}"
+resource "kubernetes_config_map" "env-vars" {
+  metadata {
+    name      = "env-vars"
+    namespace = "chainlink"
+  }
 
-#   }
+  data = {
+    ".env" = "${filebase64("config/.env")}"
+  }
+}
 
 #   data = {
 #     "helm-values.yaml"          = "${file("${path.module}/spinnaker/config/helm-values.yaml")}"
