@@ -66,6 +66,7 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 case `uname` in
   Darwin)
     sed -i ".bak" "s/REPLACE_ME_WITH_PROJECT_ID/$PROJECT_ID/g" terraform/chainlink.tfvars
+    rm terraform/chainlink.tfvars.bak
   ;;
   Linux)
     sed -i "s/REPLACE_ME_WITH_PROJECT_ID/$PROJECT_ID/g" terraform/chainlink.tfvars
