@@ -35,15 +35,17 @@ resource "kubernetes_config_map" "env-vars" {
 }
 
 resource "random_password" "api-password" {
-  length           = 8
-  special          = true
-  override_special = "/@£$"
+  length  = 16
+  special = true
 }
 
 resource "random_password" "wallet-password" {
-  length           = 8
-  special          = true
-  override_special = "/@£$"
+  length  = 16
+  special = true
+}
+
+output "api-credentials" {
+  value = "${random_password.api-password.result}"
 }
 
 resource "kubernetes_secret" "api-credentials" {
