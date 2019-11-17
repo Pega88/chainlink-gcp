@@ -30,7 +30,7 @@ resource "kubernetes_config_map" "env-vars" {
   }
 
   data = {
-    ".env" = "${filebase64("config/.env")}"
+    ".env" = "${file("config/.env")}"
   }
 }
 
