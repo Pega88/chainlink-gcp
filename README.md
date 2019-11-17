@@ -1,4 +1,7 @@
-# Chainlink node running on Kubernetes
+# Chainlink node on Google Cloud Platform
+
+## Context
+This repository helps you install a high-available pool of chainlink nodes on Google Cloud Platform, running on Kubernetes and Cloud SQL. The setup follows the best practices put forward by the [Chainlink documentation](https://docs.chain.link/docs/best-security-practices).
 
 ## Prerequisits
 In order to have a smooth installation, it is assumed you have created a project on Google Cloud Platform and have installed and authenticated the [Google Cloud SDK](https://cloud.google.com/sdk/install) on your local machine.
@@ -12,13 +15,16 @@ If you are familiar with Google Cloud Platform or have an existing projects, fee
 
 **SECURITY REMARK:** We will be downloading the private key of a Service Account. Please ensure safekeeping of this Service Account, as it grants whoever has access to it, access to your node. However, if you lose it without compromising it (e.g. hard disk crash), you can generate a new key as long as you have access to the Google Account that you initialized the Google Cloud SDK with (probably your personal GMail account). For more information on Service Accounts and best practices, visit [Google's documentation](https://cloud.google.com/iam/docs/understanding-service-accounts).
 
-### 0. Getting the code
+While all steps have been tested on Mac OS X Catalina, they should be portable to any other OS capable of running Terraform and the Google Cloud SDK. All steps should be followed in sequence and executed in the same shell, as specific variables are used across multiple steps.
+
+
+### 1. Getting the code
 We'll need the files in this repo, so go ahead and clone it to your local machine. If you're unfamiliar with git, download a ZIP of this repo and extract it.
 ```bash
 git clone https://github.com/Pega88/chainlink-gcp
 cd chainlink-gcp
 ```
-### 1. Set variables
+### 2. Preparing your environment
 Open your Terminal and set the following variables with your preferred values. For your project ID, make sure to follow [Google's requirements](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project), which currently are the following: ___A project ID must start with a lowercase letter, and can contain only ASCII letters, digits, and hyphens, and must be between 6 and 30 characters.___
 ```bash
 #our project id - must be unique
@@ -28,8 +34,8 @@ export SA_DESC="chainlink terraform service account"
 export SA_NAME=cl-terraform
 ```
 
-### 2. Create Service Account with required access in Google Cloud Platform
-
+### 3. Create Service Account with required access in Google Cloud Platform
+We'll now prepare our Google Cloud Platform (GCP) environment.
 ```bash
 #create a project
 gcloud projects create $PROJECT_ID
