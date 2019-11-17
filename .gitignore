@@ -3,3 +3,4 @@ terraform/key.json
 terraform/.terraform/*
 terraform/terraform.tfstate
 terraform/terraform.tfstate*
+terraform/tf.plan

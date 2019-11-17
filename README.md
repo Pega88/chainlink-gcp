@@ -36,11 +36,8 @@ export SA_NAME=cl-terraform
 ```
 
 ### 3. Create Service Account with required access in Google Cloud Platform
-We'll now prepare our Google Cloud Platform (GCP) environment.
+We'll now prepare our Google Cloud Platform (GCP) environment. Don't worry if you don't see output for a while, these steps will take a few minutes.
 ```bash
-#create a project
-gcloud projects create $PROJECT_ID
-
 #enable the required API Services
 gcloud services enable compute.googleapis.com --project $PROJECT_ID
 gcloud services enable container.googleapis.com --project $PROJECT_ID
@@ -61,6 +58,45 @@ gcloud iam service-accounts keys create terraform/key.json --iam-account=$SA_EMA
 gcloud projects add-iam-policy-binding $PROJECT_ID \
     --member serviceAccount:$SA_EMAIL \
     --role roles/editor
+
+#fill project id in terraform variables - $sed needs backup file path in OS X.
+case `uname` in
+  Darwin)
+    sed -i ".bak" "s/REPLACE_ME_WITH_PROJECT_ID/$PROJECT_ID/g" terraform/chainlink.tfvars
+  ;;
+  Linux)
+    sed -i "s/REPLACE_ME_WITH_PROJECT_ID/$PROJECT_ID/g" terraform/chainlink.tfvars
+  ;;
+esac
+```
+
+The output should be similar to the following (DO NOT COPY):
+```bash
+Operation "operations/REDACTED" finished successfully.
+Operation "operations/REDACTED" finished successfully.
+Operation "operations/REDACTED" finished successfully.
+Created service account [cl-terraform].
+created key [REDACTED] of type [json] as [terraform/key.json] for [cl-terraform@REDACTED.iam.gserviceaccount.com]
+Updated IAM policy for project [REDACTED].
+bindings:
+- members:
+  - serviceAccount:service-REDACTED@compute-system.iam.gserviceaccount.com
+  role: roles/compute.serviceAgent
+- members:
+  - serviceAccount:service-REDACTED@container-engine-robot.iam.gserviceaccount.com
+  role: roles/container.serviceAgent
+- members:
+  - serviceAccount:REDACTED-compute@developer.gserviceaccount.com
+  - serviceAccount:REDACTED@cloudservices.gserviceaccount.com
+  - serviceAccount:cl-terraform@project.iam.gserviceaccount.com
+  - serviceAccount:service-REDACTED@containerregistry.iam.gserviceaccount.com
+  role: roles/editor
+- members:
+  - user:REDACTED
+  role: roles/owner
+etag: REDACTED
+version: 1
+
 ```
 
 ### 3. Create resources in Google Cloud Platform using Terraform
@@ -71,10 +107,32 @@ After having created a project and a Service Account, we can use [Terraform](htt
 pushd terraform
 terraform init .
 ```
+The output should contain something similar to the following success message (DO NOT COPY):
+```bash
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+
+```
 #### Plan changes
 Using the `plan` command, we pass terraform our variables and write the plan to an out-file. This allows us to inspect the changes that are proposed.
 ```bash
 terraform plan -var-file="chainlink.tfvars" --out tf.plan
+```
+The output should be similar to (DO NOT COPY):
+```bash
+------------------------------------------------------------------------
+
+This plan was saved to: tf.plan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "tf.plan"
 ```
 #### Apply changes
 If all changes look good and there are no warnings, go ahead and `apply` your newly-generated plan.

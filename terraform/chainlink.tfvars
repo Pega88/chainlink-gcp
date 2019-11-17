@@ -3,6 +3,5 @@
 #gcp_region    = "europe-west1"
 #gcp_zone      = "europe-west1-c"pega88-dlt
 
-#required: projectname
-
-project_name= "pega88-dlt"
+#required: project_name - filled through instructions
+project_name= "REPLACE_ME_WITH_PROJECT_ID"
