@@ -30,6 +30,8 @@ Follow [Google's documentation](https://cloud.google.com/resource-manager/docs/c
 ```bash
 #The ID of the project you just created.
 export PROJECT_ID=ENTER_YOUR_PROJECT_ID_HERE
+#your email address, used to login into the node's web portal
+export USER_EMAIL=REPLACE_ME_WITH_USER_EMAIL
 #the description and name for the Service Account
 export SA_DESC="chainlink terraform service account"
 export SA_NAME=cl-terraform
@@ -66,10 +68,12 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 case `uname` in
   Darwin)
     sed -i ".bak" "s/REPLACE_ME_WITH_PROJECT_ID/$PROJECT_ID/g" terraform/chainlink.tfvars
+    sed -i ".bak" "s/REPLACE_ME_WITH_USER_EMAIL/$USER_EMAIL/g" terraform/chainlink.tfvars
     rm terraform/chainlink.tfvars.bak
   ;;
   Linux)
     sed -i "s/REPLACE_ME_WITH_PROJECT_ID/$PROJECT_ID/g" terraform/chainlink.tfvars
+    sed -i "s/REPLACE_ME_WITH_USER_EMAIL/$USER_EMAIL/g" terraform/chainlink.tfvars
   ;;
 esac
 ```
