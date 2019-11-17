@@ -25,7 +25,8 @@ git clone https://github.com/Pega88/chainlink-gcp
 cd chainlink-gcp
 ```
 ### 2. Preparing your environment
-Open your Terminal and set the following variables with your preferred values. For your project ID, make sure to follow [Google's requirements](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project), which currently are the following: ___A project ID must start with a lowercase letter, and can contain only ASCII letters, digits, and hyphens, and must be between 6 and 30 characters.___
+Follow [Google's documentation](https://cloud.google.com/resource-manager/docs/creating-managing-projects) and create a new project and __enable billing__ on the project. If you are a new user you might be elegible to use the [Free Tier](https://cloud.google.com/free/), currently $300. Once done, fill your project ID in the variable below and execute all commands in your Terminal.
+
 ```bash
 #our project id - must be unique
 export PROJECT_ID=ENTER_YOUR_PROJECT_ID_HERE
