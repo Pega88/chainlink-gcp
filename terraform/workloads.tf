@@ -35,25 +35,25 @@ resource "kubernetes_config_map" "env-vars" {
 }
 
 resource "random_string" "api-password" {
-  length = 16
-  special = true
+  length           = 16
+  special          = true
   override_special = "/@£$"
 }
 
 resource "random_string" "wallet-password" {
-  length = 16
-  special = true
+  length           = 16
+  special          = true
   override_special = "/@£$"
 }
 
 resource "local_file" "api" {
-    content  = "user@example.com\n${random_string.api-password.result}"
-    filename = "config/.api"
+  content  = "user@example.com\n${random_string.api-password.result}"
+  filename = "config/.api"
 }
 
 resource "local_file" "password" {
-    content  = "${random_string.wallet-password.result}"
-    filename = "config/.password"
+  content  = "${random_string.wallet-password.result}"
+  filename = "config/.password"
 }
 
 
@@ -64,7 +64,7 @@ resource "kubernetes_secret" "api-credentials" {
   }
 
   data = {
-    .api = "${file("${local_file.api}")}"
+    api = "${file("${local_file.api}")}"
   }
 }
 
@@ -75,7 +75,7 @@ resource "kubernetes_secret" "password-credentials" {
   }
 
   data = {
-    .password = "${file("${local_file.password}")}"
+    password = "${file("${local_file.password}")}"
   }
 }
 
