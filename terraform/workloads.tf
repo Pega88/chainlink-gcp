@@ -34,14 +34,14 @@ resource "kubernetes_config_map" "env-vars" {
   }
 }
 
-resource "random_string" "api-password" {
-  length           = 16
+resource "random_password" "api-password" {
+  length           = 8
   special          = true
   override_special = "/@£$"
 }
 
-resource "random_string" "wallet-password" {
-  length           = 16
+resource "random_password" "wallet-password" {
+  length           = 8
   special          = true
   override_special = "/@£$"
 }
@@ -53,7 +53,7 @@ resource "kubernetes_secret" "api-credentials" {
   }
 
   data = {
-    api = "user@example.com${random_string.api-password.result}"
+    api = "${concat("user@example.com", random_password.api-password.result)}"
   }
 }
 
@@ -64,7 +64,7 @@ resource "kubernetes_secret" "password-credentials" {
   }
 
   data = {
-    password = "${random_string.wallet-password.result}"
+    password = "${random_password.wallet-password.result}"
   }
 }
 
