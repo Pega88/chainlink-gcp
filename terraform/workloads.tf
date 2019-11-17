@@ -34,20 +34,50 @@ resource "kubernetes_config_map" "env-vars" {
   }
 }
 
-#   data = {
-#     "helm-values.yaml"          = "${file("${path.module}/spinnaker/config/helm-values.yaml")}"
-#     "helm-values-template.yaml" = "${file("${path.module}/spinnaker/config/helm-values-template.yaml")}"
-#   }
-# }
-# resource "kubernetes_secret" "spinnaker-gcr-credentials" {
-#   metadata {
-#     name      = "spinnaker-gcr"
-#     namespace = "${kubernetes_namespace.devops.metadata.0.name}"
-#   }
-#   data = {
-#     gcr = "${base64decode(google_service_account_key.spin_key.private_key)}"
-#   }
-# }
+resource "random_string" "api-password" {
+  length = 16
+  special = true
+  override_special = "/@£$"
+}
+
+resource "random_string" "wallet-password" {
+  length = 16
+  special = true
+  override_special = "/@£$"
+}
+
+resource "local_file" "api" {
+    content  = "user@example.com\n${random_string.api-password.result}"
+    filename = "config/.api"
+}
+
+resource "local_file" "password" {
+    content  = "${random_string.wallet-password.result}"
+    filename = "config/.password"
+}
+
+
+resource "kubernetes_secret" "api-credentials" {
+  metadata {
+    name      = "api-credentials"
+    namespace = "chainlink"
+  }
+
+  data = {
+    .api = "${file("${local_file.api}")}"
+  }
+}
+
+resource "kubernetes_secret" "password-credentials" {
+  metadata {
+    name      = "password-credentials"
+    namespace = "chainlink"
+  }
+
+  data = {
+    .password = "${file("${local_file.password}")}"
+  }
+}
 
 # resource "kubernetes_job" "install_devops" {
 #   metadata {
