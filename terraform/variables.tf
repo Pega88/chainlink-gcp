@@ -19,3 +19,9 @@ variable gcp_zone {
   type        = "string"
   default = "europe-west1-d"
 }
+
+variable username {
+  description = "Chainlink node admin username"
+  type        = "string"
+  default = "admin"
+}
