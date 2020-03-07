@@ -65,6 +65,7 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
     --role roles/editor
 
 #fill project id in terraform variables - $sed needs backup file path in OS X.
+cp terraform/chainlink.tfvars.template terraform/chainlink.tfvars
 case `uname` in
   Darwin)
     sed -i ".bak" "s/REPLACE_ME_WITH_PROJECT_ID/$PROJECT_ID/g" terraform/chainlink.tfvars
