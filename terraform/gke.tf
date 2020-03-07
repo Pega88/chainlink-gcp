@@ -4,9 +4,11 @@ resource "google_project_service" "container_api" {
 }
 
 resource "google_service_account" "gke-nodes" {
-  account_id   = "gke-nodes"
+  account_id   = "cl-gke-nodes"
   display_name = "Service Account used by Kubernetes Cluster"
 }
+
+#TODO firewall rules
 
 
 resource "google_container_cluster" "gke-cluster" {

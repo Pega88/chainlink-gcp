@@ -46,6 +46,12 @@ resource "random_password" "wallet-password" {
 
 output "api-credentials" {
   value = "${random_password.api-password.result}"
+  #sensitive   = true #to hide output
+}
+
+output "wallet-credentials" {
+  value = "${random_password.wallet-password.result}"
+  #sensitive   = true #to hide output
 }
 
 resource "kubernetes_secret" "api-credentials" {
@@ -60,6 +66,7 @@ resource "kubernetes_secret" "api-credentials" {
   }
 }
 
+
 resource "kubernetes_secret" "password-credentials" {
   metadata {
     name      = "password-credentials"
@@ -70,6 +77,8 @@ resource "kubernetes_secret" "password-credentials" {
     password = "${random_password.wallet-password.result}"
   }
 }
+
+
 
 # resource "kubernetes_job" "install_devops" {
 #   metadata {
