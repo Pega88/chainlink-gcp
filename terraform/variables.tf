@@ -20,7 +20,6 @@ variable gcp_zone {
   default = "europe-west1-d"
 }
 
-
 variable username {
   description = "Chainlink node admin username"
   type        = "string"
