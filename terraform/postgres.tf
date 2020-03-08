@@ -2,6 +2,12 @@
 #todo RBAC
 #todo x-namespace
 #todo retainpolicy validation for pv
+#todo replication statefulset
+
+resource "random_password" "postgres-password" {
+  length  = 16
+  special = true
+}
 
 resource "kubernetes_service" "postgres" {
   metadata {
@@ -27,8 +33,8 @@ resource "kubernetes_config_map" "postgres" {
 
   data = {
     "POSTGRES_DB" = "chainlink"
-    "POSTGRES_USER" = "admin"
-    "POSTGRES_PASSWORD" = "passw" 
+    "POSTGRES_USER" = "${var.postgres_username}"
+    "POSTGRES_PASSWORD" = "${random_password.postgres-password.result}"
   }
 }
 
@@ -39,7 +45,7 @@ resource "kubernetes_stateful_set" "postgres" {
   }
 
   spec {
-    replicas = 2
+    replicas = 1 #multiple replicas here on master would create multiple volumes
     service_name = "postgres"
     selector {
       match_labels = {
