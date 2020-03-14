@@ -189,10 +189,10 @@ resource "kubernetes_ingress" "chainlink_ingress" {
   metadata {
     name = "chainlink-ingress"
     namespace = "chainlink"
-    annotations {
+    annotations = {
       #"ingress.gcp.kubernetes.io/pre-shared-cert" = "${ var.ssl_cert_name }"
-      #"kubernetes.io/ingress.allow-http" = "false"
-      kubernetes.io/ingress.global-static-ip-name = "${google_compute_global_address.chainlink-node.name}"
+      #"kubernetes.io/ingress.allow-http"=false
+      "kubernetes.io/ingress.global-static-ip-name" = "${google_compute_global_address.chainlink-node.name}"
     }
   }
   spec {
