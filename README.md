@@ -40,3 +40,17 @@ Run the `setup.sh` script passing 2 paramters:
 ```bash
 sh setup.sh chainlink-dryrun-3 admin@gmail.com
 ```
+This script will prepare the environment for you with the following steps. Please have 10 minutes patience for it to complete.
+#### Steps:
+* Create Google Service Account & Generate Key
+* Grant Service Account access to create required resources
+* Run terraform
+
+The terraform code will:
+* Create a Google Kubernetes Engine Cluster on Google Cloud
+* Create a `chainlink` namespace
+* Deploy a postgres database in the cluster
+* Deploy a Chainlink Node in the cluster
+
+### 4. Connecting to your Chainlink Node
+The output of the script will provide you with an IP address, a chainlink node password and . Visit the url to login using the email address you provided before and the password shown in the output.
