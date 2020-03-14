@@ -45,5 +45,9 @@ The terraform code will:
 * Deploy a postgres database in the cluster
 * Deploy a Chainlink Node in the cluster
 
+If you are live following the deployment from the Google Cloud Console, be aware it's expected to have pending pods or restart loops, as the chainlink node requires the postgres database to be fully initialized first. Terraform will only return when everything is fully functional, so please be patient.
+
 ### 4. Connecting to your Chainlink Node
-The output of the script will provide you with an IP address, a chainlink node password and . Visit the url to login using the email address you provided before and the password shown in the output.
+The output of the script will provide you with an IP address, a chainlink node password (api-credentials) and a wallet password for your ethereum wallet of the node.
+
+Visit the url to login using the email address you provided before and the password shown in the output.
