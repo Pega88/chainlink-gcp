@@ -44,6 +44,9 @@ The terraform code will:
 * Create a `chainlink` namespace
 * Deploy a postgres database in the cluster
 * Deploy a Chainlink Node in the cluster
+* Expose the Node using a HTTP L7 Google Cloud Global Load Balancer
+
+To read more about the advantages of this GCLB, please visit [the docs](https://cloud.google.com/load-balancing/docs/https).
 
 If you are live following the deployment from the Google Cloud Console, be aware it's expected to have pending pods or restart loops, as the chainlink node requires the postgres database to be fully initialized first. Terraform will only return when everything is fully functional, so please be patient.
 
