@@ -9,14 +9,7 @@ In order to have a smooth installation, it is assumed you have created a project
 You will also need to install [Terraform](https://www.terraform.io/). This setup has been tested with version `0.12`.
 
 ## Installation
-To enable Terraform to manage resources on Google Cloud Platform, it needs a projects and a Service Account with access to that project to authenticate with. Following steps guide you to create a project in Google Cloud Platform, create a Service Account and grant it the required role to deploy the resources we need.
-
-If you are familiar with Google Cloud Platform or have an existing projects, feel free to skip related steps.
-
-**SECURITY REMARK:** We will be downloading the private key of a Service Account. Please ensure safekeeping of this Service Account, as it grants whoever has access to it, access to your node. However, if you lose it without compromising it (e.g. hard disk crash), you can generate a new key as long as you have access to the Google Account that you initialized the Google Cloud SDK with (probably your personal Gmail account). For more information on Service Accounts and best practices, visit [Google's documentation](https://cloud.google.com/iam/docs/understanding-service-accounts).
-
-While all steps have been tested on Mac OS X Catalina, they should be portable to any other OS capable of running Terraform and the Google Cloud SDK. All steps should be followed in sequence and executed in the same shell, as specific variables are used across multiple steps.
-
+While all steps have been tested on Mac OS X Catalina, they should be portable to any other OS capable of running Terraform and the Google Cloud SDK.
 
 ### 1. Getting the code
 We'll need the files in this repo, so go ahead and clone it to your local machine. If you're unfamiliar with git, download a ZIP of this repo and extract it.
