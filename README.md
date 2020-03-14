@@ -63,6 +63,9 @@ The output of the script will provide you with an IP address, a chainlink node p
 
 Visit the IP address to login using the email address you provided before and the password shown in the output. Please note that it can take **up to 20 minutes** for Google to fully provision the Load Balancer. In the meantime you can get 503 and 404 errors.
 
+Expected output should look as follows:
+
+![script output](imgs/output.png)
 
 ### 5. Donations
 If you like this project and want to support further development:
