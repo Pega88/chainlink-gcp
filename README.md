@@ -6,7 +6,15 @@ This repository helps you install a high-available pool of chainlink nodes on Go
 ## Prerequisits
 In order to have a smooth installation, it is assumed you have created a project on Google Cloud Platform and have installed and authenticated the [Google Cloud SDK](https://cloud.google.com/sdk/install) on your local machine.
 
-You will also need to install [Terraform](https://www.terraform.io/). This setup has been tested with version `0.12`.
+Make sure you can run the following command to validate gcloud is installed correctly and you are authenticated with the correct Google account:
+```bash
+gcloud auth list
+```
+
+You will also need to install [Terraform](https://www.terraform.io/). This setup has been tested with version `0.12`. Run the following to confirm:
+```bash
+terraform version
+```
 
 ## Installation
 While all steps have been tested on Mac OS X Catalina, they should be portable to any other OS capable of running Terraform and the Google Cloud SDK.
