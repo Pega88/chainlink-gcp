@@ -68,4 +68,5 @@ Visit the IP address to login using the email address you provided before and th
 If you like this project and want to support further development, you can donate
 
 `BTC: 36PX1UfcCt3BYiVvvd6vyJM9totHPLqBzo`
-```ETH/LINK: 0x3340F150115C2081C33eee57560E5712a19105dE```
+
+`ETH/LINK: 0x3340F150115C2081C33eee57560E5712a19105dE`
