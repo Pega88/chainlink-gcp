@@ -180,7 +180,7 @@ resource "kubernetes_service" "chainlink_service" {
   }
 }
 
-esource "kubernetes_ingress" "chainlink_ingress" {
+resource "kubernetes_ingress" "chainlink_ingress" {
   metadata {
     name = "chainlink-ingress"
   }
