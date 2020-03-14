@@ -44,6 +44,9 @@ The terraform code will:
 * Create a `chainlink` namespace
 * Deploy a postgres database in the cluster
 * Deploy a Chainlink Node in the cluster
+* Expose the Node using a HTTP L7 Google Cloud Global Load Balancer
+
+To read more about the advantages of this GCLB, please visit [the docs](https://cloud.google.com/load-balancing/docs/https).
 
 If you are live following the deployment from the Google Cloud Console, be aware it's expected to have pending pods or restart loops, as the chainlink node requires the postgres database to be fully initialized first. Terraform will only return when everything is fully functional, so please be patient.
 
@@ -51,3 +54,11 @@ If you are live following the deployment from the Google Cloud Console, be aware
 The output of the script will provide you with an IP address, a chainlink node password (api-credentials) and a wallet password for your ethereum wallet of the node.
 
 Visit the IP address to login using the email address you provided before and the password shown in the output. Please note that it can take **up to 20 minutes** for Google to fully provision the Load Balancer. In the meantime you can get 503 and 404 errors.
+
+
+### 5. Donations
+If you like this project and want to support further development, you can donate
+
+BTC: 36PX1UfcCt3BYiVvvd6vyJM9totHPLqBzo
+
+ETH/LINK: 0x3340F150115C2081C33eee57560E5712a19105dE
