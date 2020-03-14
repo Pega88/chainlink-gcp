@@ -1,10 +1,10 @@
 #!/bin/bash
 
-
 RED='\033[1;31m'
 BLUE='\033[1;34m'
+normal=$(tput sgr0)
 if [ "$#" -ne 2 ]; then
-    printf "${RED}please pass your Google Cloud Project Name and desired Chainlink Admin Email\nExample: ./run.sh my-google-project admin@acme.org\n"
+    printf "${RED}please pass your Google Cloud Project Name and desired Chainlink Admin Email\nExample: ./run.sh my-google-project admin@acme.org\n${normal}"
     exit 1
 fi
 
@@ -16,8 +16,8 @@ USER_EMAIL=$2
 SA_DESC="chainlink terraform service account"
 SA_NAME=cl-terraform
 
-echo "Using Google Cloud Project: $PROJECT_ID"
-echo "Chainlink admin username: $USER_EMAIL"
+printf "Using Google Cloud Project: ${BLUE}$PROJECT_ID\n${normal}"
+printf "Chainlink admin username: ${BLUE}$USER_EMAIL\n${normal}\n"
 
 
 #enable the required API Services
@@ -31,9 +31,9 @@ SA_EMAIL=$(gcloud --project $PROJECT_ID iam service-accounts list \
     --filter="displayName:$SA_DESC" \
     --format='value(email)')
 
-if [ -z "$sA_EMAIL" ]
+if [ -z "$SA_EMAIL" ]
 then
-	echo "Creating a Service Account to be used with Terraform"
+	printf "${BLUE}Creating a Service Account to be used with Terraform\n${normal}...\n"
 	#create Service Account
 	gcloud iam service-accounts create $SA_NAME --display-name "$SA_DESC" --project $PROJECT_ID
 
@@ -45,12 +45,14 @@ then
 	    --filter="displayName:$SA_DESC" \
 	    --format='value(email)')
 else
-	echo "Reusing existing Service Account $SA_EMAIL"
+	printf "${BLUE}Reusing existing Service Account $SA_EMAIL\n${normal}"
 fi
 
+printf "${BLUE}Generating Service Account Key\n${normal}...\n"
 #download a JSON private key for the Service Account
 gcloud iam service-accounts keys create key.json --iam-account=$SA_EMAIL
 
+printf "${BLUE}Granting Service Account IAM Access\n${normal}...\n"
 #grant our new Service Account the role of Project Editor
 gcloud projects add-iam-policy-binding $PROJECT_ID \
     --member serviceAccount:$SA_EMAIL \
