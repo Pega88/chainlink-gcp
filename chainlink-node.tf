@@ -184,6 +184,7 @@ resource "kubernetes_service" "chainlink_service" {
 resource "kubernetes_ingress" "chainlink_ingress" {
   metadata {
     name = "chainlink-ingress"
+    namespace = "chainlink"
   }
   spec {
     backend {
