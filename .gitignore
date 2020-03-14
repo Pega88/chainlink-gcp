@@ -1,7 +1,7 @@
 .DS_Store
-terraform/key.json
-terraform/.terraform/*
-terraform/terraform.tfstate
-terraform/terraform.tfstate*
-terraform/tf.plan
-terraform/chainlink.tfvars
+key.json
+.terraform/*
+terraform.tfstate
+terraform.tfstate*
+tf.plan
+chainlink.tfvars
