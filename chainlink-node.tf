@@ -174,6 +174,7 @@ resource "kubernetes_service" "chainlink_service" {
     selector = {
       app = "chainlink-node"
     }
+    type = "NodePort"
     port {
       port        = 6688
     }
@@ -190,4 +191,9 @@ resource "kubernetes_ingress" "chainlink_ingress" {
       service_port = 6688
     }
   }
+}
+
+output "chainlink_node_ip" {
+  description = "Global IPv4 address for the Load Balancer serving the Chainlink Node"
+  value       = kubernetes_ingress.chainlink_ingress.load_balancer_ingress.ip
 }
