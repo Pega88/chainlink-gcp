@@ -13,7 +13,7 @@ To enable Terraform to manage resources on Google Cloud Platform, it needs a pro
 
 If you are familiar with Google Cloud Platform or have an existing projects, feel free to skip related steps.
 
-**SECURITY REMARK:** We will be downloading the private key of a Service Account. Please ensure safekeeping of this Service Account, as it grants whoever has access to it, access to your node. However, if you lose it without compromising it (e.g. hard disk crash), you can generate a new key as long as you have access to the Google Account that you initialized the Google Cloud SDK with (probably your personal GMail account). For more information on Service Accounts and best practices, visit [Google's documentation](https://cloud.google.com/iam/docs/understanding-service-accounts).
+**SECURITY REMARK:** We will be downloading the private key of a Service Account. Please ensure safekeeping of this Service Account, as it grants whoever has access to it, access to your node. However, if you lose it without compromising it (e.g. hard disk crash), you can generate a new key as long as you have access to the Google Account that you initialized the Google Cloud SDK with (probably your personal Gmail account). For more information on Service Accounts and best practices, visit [Google's documentation](https://cloud.google.com/iam/docs/understanding-service-accounts).
 
 While all steps have been tested on Mac OS X Catalina, they should be portable to any other OS capable of running Terraform and the Google Cloud SDK. All steps should be followed in sequence and executed in the same shell, as specific variables are used across multiple steps.
 
@@ -38,7 +38,7 @@ export SA_NAME=cl-terraform
 ```
 
 ### 3. Create Service Account with required access in Google Cloud Platform
-We'll now prepare our Google Cloud Platform (GCP) environment. Don't worry if you don't see output for a while, these steps will take a few minutes.
+We'll now prepare our Google Cloud Platform (GCP) environment. Don't worry if you don't see output for a while, **these steps will take a few minutes**.
 ```bash
 #enable the required API Services
 gcloud services enable compute.googleapis.com --project $PROJECT_ID
@@ -57,7 +57,7 @@ SA_EMAIL=$(gcloud --project $PROJECT_ID iam service-accounts list \
     --format='value(email)')
 
 #download a JSON private key for the Service Account
-gcloud iam service-accounts keys create terraform/key.json --iam-account=$SA_EMAIL
+gcloud iam service-accounts keys create key.json --iam-account=$SA_EMAIL
 
 #grant our new Service Account the role of Project Editor
 gcloud projects add-iam-policy-binding $PROJECT_ID \
@@ -65,16 +65,16 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
     --role roles/editor
 
 #fill project id in terraform variables - $sed needs backup file path in OS X.
-cp terraform/chainlink.tfvars.template terraform/chainlink.tfvars
+cp chainlink.tfvars.template chainlink.tfvars
 case `uname` in
   Darwin)
-    sed -i ".bak" "s/REPLACE_ME_WITH_PROJECT_ID/$PROJECT_ID/g" terraform/chainlink.tfvars
-    sed -i ".bak" "s/REPLACE_ME_WITH_USER_EMAIL/$USER_EMAIL/g" terraform/chainlink.tfvars
-    rm terraform/chainlink.tfvars.bak
+    sed -i ".bak" "s/REPLACE_ME_WITH_PROJECT_ID/$PROJECT_ID/g" chainlink.tfvars
+    sed -i ".bak" "s/REPLACE_ME_WITH_USER_EMAIL/$USER_EMAIL/g" chainlink.tfvars
+    rm chainlink.tfvars.bak
   ;;
   Linux)
-    sed -i "s/REPLACE_ME_WITH_PROJECT_ID/$PROJECT_ID/g" terraform/chainlink.tfvars
-    sed -i "s/REPLACE_ME_WITH_USER_EMAIL/$USER_EMAIL/g" terraform/chainlink.tfvars
+    sed -i "s/REPLACE_ME_WITH_PROJECT_ID/$PROJECT_ID/g" chainlink.tfvars
+    sed -i "s/REPLACE_ME_WITH_USER_EMAIL/$USER_EMAIL/g" chainlink.tfvars
   ;;
 esac
 ```
@@ -85,7 +85,7 @@ Operation "operations/REDACTED" finished successfully.
 Operation "operations/REDACTED" finished successfully.
 Operation "operations/REDACTED" finished successfully.
 Created service account [cl-terraform].
-created key [REDACTED] of type [json] as [terraform/key.json] for [cl-terraform@REDACTED.iam.gserviceaccount.com]
+created key [REDACTED] of type [json] as [key.json] for [cl-terraform@REDACTED.iam.gserviceaccount.com]
 Updated IAM policy for project [REDACTED].
 bindings:
 - members:
@@ -113,7 +113,6 @@ After having created a project and a Service Account, we can use [Terraform](htt
 
 #### Initialize Terraform
 ```bash
-pushd terraform
 terraform init .
 ```
 The output should contain something similar to the following success message (DO NOT COPY):
@@ -148,5 +147,4 @@ If all changes look good and there are no warnings, go ahead and `apply` your ne
 
 ```bash
 terraform apply tf.plan
-popd
 ```
