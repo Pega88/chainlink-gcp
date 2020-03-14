@@ -6,7 +6,7 @@
 
 resource "random_password" "postgres-password" {
   length  = 16
-  special = true
+  special = false
 }
 
 resource "kubernetes_service" "postgres" {

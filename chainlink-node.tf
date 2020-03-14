@@ -53,12 +53,12 @@ resource "kubernetes_config_map" "chainlink-env" {
 
 resource "random_password" "api-password" {
   length  = 16
-  special = true
+  special = false
 }
 
 resource "random_password" "wallet-password" {
   length  = 16
-  special = true
+  special = false
 }
 
 output "api-credentials" {
