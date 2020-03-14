@@ -54,3 +54,9 @@ If you are live following the deployment from the Google Cloud Console, be aware
 The output of the script will provide you with an IP address, a chainlink node password (api-credentials) and a wallet password for your ethereum wallet of the node.
 
 Visit the IP address to login using the email address you provided before and the password shown in the output. Please note that it can take **up to 20 minutes** for Google to fully provision the Load Balancer. In the meantime you can get 503 and 404 errors.
+
+
+### 5. Donations
+If you like this project and want to support further development, you can donate
+BTC: 36PX1UfcCt3BYiVvvd6vyJM9totHPLqBzo
+ETH/LINK: 0x3340F150115C2081C33eee57560E5712a19105dE
