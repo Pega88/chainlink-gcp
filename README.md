@@ -1,4 +1,4 @@
-# Chainlink node on Google Cloud Platform
+# Hosting Chainlink Node on Google Cloud Using Terraform
 
 ## Context
 This repository helps you install a high-available pool of chainlink nodes on Google Cloud Platform, running on Kubernetes and Cloud SQL. The setup follows the best practices put forward by the [Chainlink documentation](https://docs.chain.link/docs/best-security-practices).
