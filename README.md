@@ -25,7 +25,10 @@ git clone https://github.com/Pega88/chainlink-gcp
 cd chainlink-gcp
 ```
 ### 2. Preparing your environment
-Follow [Google's documentation](https://cloud.google.com/resource-manager/docs/creating-managing-projects) and create a new project and __enable billing__ on the project. If you are a new user you might be elegible to use the [Free Tier](https://cloud.google.com/free/), currently $300. Once done, fill your project ID in the variable below and execute all commands in your Terminal. Make sure to use the __project ID__, not the project number nor the project display name.
+Follow [Google's documentation](https://cloud.google.com/resource-manager/docs/creating-managing-projects) and create a new project and __enable billing__ on the project. Remember the project id you chose.
+
+![Creating a project](imgs/create-project.png)
+
 
 ### 3. Running the initialization
 Run the `setup.sh` script passing 2 paramters:
@@ -33,6 +36,7 @@ Run the `setup.sh` script passing 2 paramters:
 `gcloud projects list` to get the list of your projects ids.
 * the email address you wish to use for your Chainlink Node login. A password will be generated and shown as output of the script.
 
+**for example**
 ```bash
-sh setup.sh your_project_name your.email@provider.com
+sh setup.sh chainlink-dryrun-3 admin@gmail.com
 ```
