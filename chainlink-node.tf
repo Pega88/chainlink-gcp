@@ -164,3 +164,30 @@ resource "kubernetes_deployment" "chainlink-node" {
     }
   }
 }
+
+resource "kubernetes_service" "chainlink_service" {
+  metadata {
+    name = "chainlink-node"
+    namespace = "chainlink"
+  }
+  spec {
+    selector = {
+      app = "chainlink-node"
+    }
+    port {
+      port        = 6688
+    }
+  }
+}
+
+esource "kubernetes_ingress" "chainlink_ingress" {
+  metadata {
+    name = "chainlink-ingress"
+  }
+  spec {
+    backend {
+      service_name = "chainlink-node"
+      service_port = 6688
+    }
+  }
+}
