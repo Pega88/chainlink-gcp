@@ -25,16 +25,28 @@ gcloud services enable compute.googleapis.com --project $PROJECT_ID
 gcloud services enable container.googleapis.com --project $PROJECT_ID
 gcloud services enable cloudresourcemanager.googleapis.com --project $PROJECT_ID
 
-#create Service Account
-gcloud iam service-accounts create $SA_NAME --display-name "$SA_DESC" --project $PROJECT_ID
 
-#SA needs some time to propagate before we can get its email
-sleep 5
-
-#extract the email from the newly generated Service Account
+#check if SA exists from a previous run
 SA_EMAIL=$(gcloud --project $PROJECT_ID iam service-accounts list \
     --filter="displayName:$SA_DESC" \
     --format='value(email)')
+
+if [ -z "$sA_EMAIL" ]
+then
+	echo "Creating a Service Account to be used with Terraform"
+	#create Service Account
+	gcloud iam service-accounts create $SA_NAME --display-name "$SA_DESC" --project $PROJECT_ID
+
+	#SA needs some time to propagate before we can get its email
+	sleep 5
+
+	#extract the email from the newly generated Service Account
+	SA_EMAIL=$(gcloud --project $PROJECT_ID iam service-accounts list \
+	    --filter="displayName:$SA_DESC" \
+	    --format='value(email)')
+else
+	echo "Reusing existing Service Account $SA_EMAIL"
+fi
 
 #download a JSON private key for the Service Account
 gcloud iam service-accounts keys create key.json --iam-account=$SA_EMAIL
