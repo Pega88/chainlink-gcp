@@ -65,8 +65,7 @@ Visit the IP address to login using the email address you provided before and th
 
 
 ### 5. Donations
-If you like this project and want to support further development, you can donate
+If you like this project and want to support further development:
 
-`BTC: 36PX1UfcCt3BYiVvvd6vyJM9totHPLqBzo`
-
+`BTC: 36PX1UfcCt3BYiVvvd6vyJM9totHPLqBzo`  
 `ETH/LINK: 0x3340F150115C2081C33eee57560E5712a19105dE`
