@@ -205,10 +205,5 @@ resource "kubernetes_ingress" "chainlink_ingress" {
 
 output "chainlink_node_ip" {
   description = "Global IPv4 address for the Load Balancer serving the Chainlink Node"
-  value       = kubernetes_ingress.chainlink_ingress.load_balancer_ingress
-}
-
-output "chainlink_ip" {
-  description = "Global IPv4 address for the Load Balancer serving the Chainlink Node"
-  value       = google_compute_global_address.chainlink-node.address
+  value       = kubernetes_ingress.chainlink_ingress.load_balancer_ingress.0.ip
 }
