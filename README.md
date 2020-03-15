@@ -59,7 +59,7 @@ To read more about the advantages of this GCLB, please visit [the docs](https://
 If you are live following the deployment from the Google Cloud Console, be aware it's expected to have pending pods or restart loops, as the chainlink node requires the postgres database to be fully initialized first. Terraform will only return when everything is fully functional, so please be patient.
 
 ### 4. (Optional) Protecting your node using Cloud IAP
-Using Cloud IAP, you can protect your node running on GKE from unauthorized access even before authenticating to the node itself. Using IAP, Google will ensure correct Authentication and Authorization before allowing access to the actual node. More details about the concept can be [found here](https://cloud.google.com/iap/docs/concepts-overview).
+Using Cloud IAP, you can protect your node running on GKE from unauthorized access even before authenticating to the node itself, without the need of a VPN connection. Using IAP, Google will ensure correct Authentication and Authorization before allowing access to the actual node. More details about the concept can be [found here](https://cloud.google.com/iap/docs/concepts-overview).
 
 Setting up IAP requires some manual steps and is fully documented [here](https://cloud.google.com/iap/docs/enabling-kubernetes-howto).
 
