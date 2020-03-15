@@ -1,7 +1,7 @@
 # Hosting a Chainlink node on Google Cloud
 
 ## Context
-This repository helps you install a high-available pool of chainlink nodes on Google Cloud Platform, running on Kubernetes and Cloud SQL. The setup follows the best practices put forward by the [Chainlink documentation](https://docs.chain.link/docs/best-security-practices).
+This repository helps you install a high-available pool of chainlink nodes on Google Cloud Platform, running on Kubernetes. The setup follows the best practices put forward by the [Chainlink documentation](https://docs.chain.link/docs/best-security-practices).
 
 ## Prerequisits
 In order to have a smooth installation, it is assumed you have created a project on Google Cloud Platform and have installed and authenticated the [Google Cloud SDK](https://cloud.google.com/sdk/install) on your local machine.
