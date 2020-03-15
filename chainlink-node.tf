@@ -107,7 +107,7 @@ resource "kubernetes_deployment" "chainlink-node" {
   }
 
   spec {
-    replicas = 1
+    replicas = 2
 
     selector {
       match_labels = {
@@ -128,26 +128,27 @@ resource "kubernetes_deployment" "chainlink-node" {
           port {
             container_port = 6688
           }
-          #command = ["/bin/bash", "-c", "echo $(ETH_URL)"]
           args = ["local", "n", "-p",  "/chainlink/.password", "-a", "/chainlink/.api"]
 
-          #needed for explicit data field ref in configmap
           env_from {
             config_map_ref {
               name = "chainlink-env"
             }
           }
+
           volume_mount {
             name        = "api-volume"
             sub_path    = "api"
             mount_path  = "/chainlink/.api"
           }
+
           volume_mount {
             name        = "password-volume"
             sub_path    = "password"
             mount_path  = "/chainlink/.password"
           }
         }
+        
         volume {
           name = "api-volume"
           secret {
@@ -176,7 +177,7 @@ resource "kubernetes_service" "chainlink_service" {
     }
     type = "NodePort"
     port {
-      port        = 6688
+      port = 6688
     }
   }
 }
