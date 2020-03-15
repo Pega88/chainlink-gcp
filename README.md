@@ -58,7 +58,12 @@ To read more about the advantages of this GCLB, please visit [the docs](https://
 
 If you are live following the deployment from the Google Cloud Console, be aware it's expected to have pending pods or restart loops, as the chainlink node requires the postgres database to be fully initialized first. Terraform will only return when everything is fully functional, so please be patient.
 
-### 4. Connecting to your Chainlink Node
+### 4. (Optional) Protecting your node using Cloud IAP
+Using Cloud IAP, you can protect your node running on GKE from unauthorized access even before authenticating to the node itself. Using IAP, Google will ensure correct Authentication and Authorization before allowing access to the actual node. More details about the concept can be [found here](https://cloud.google.com/iap/docs/concepts-overview).
+
+Setting up IAP requires some manual steps and is fully documented (here)[https://cloud.google.com/iap/docs/enabling-kubernetes-howto].
+
+### 5. Connecting to your Chainlink Node
 The output of the script will provide you with an IP address, a chainlink node password (api-credentials) and a wallet password for your ethereum wallet of the node.
 
 Visit the IP address to login using the email address you provided before and the password shown in the output. Please note that it can take **up to 20 minutes** for Google to fully provision the Load Balancer. In the meantime you can get 502 and 404 errors.
