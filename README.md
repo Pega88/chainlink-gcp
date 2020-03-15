@@ -73,7 +73,7 @@ Using Cloud IAP, you can protect your node running on GKE from unauthorized acce
 
 Setting up IAP requires some manual steps and is fully documented [here](https://cloud.google.com/iap/docs/enabling-kubernetes-howto). Be aware IAP works with HTTPS which will require you to link a domain name to the Google Cloud Load Balancer IP.
 
-### 6. Donations
+### 7. Donations
 If you like this project and want to support further development:
 
 `BTC: 36PX1UfcCt3BYiVvvd6vyJM9totHPLqBzo`  
