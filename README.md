@@ -58,10 +58,6 @@ To read more about the advantages of this GCLB, please visit [the docs](https://
 
 If you are live following the deployment from the Google Cloud Console, be aware it's expected to have pending pods or restart loops, as the chainlink node requires the postgres database to be fully initialized first. Terraform will only return when everything is fully functional, so please be patient.
 
-### 4. (Optional) Protecting your node using Cloud IAP
-Using Cloud IAP, you can protect your node running on GKE from unauthorized access even before authenticating to the node itself, without the need of a VPN connection. Using IAP, Google will ensure correct Authentication and Authorization before allowing access to the actual node. More details about the concept can be [found here](https://cloud.google.com/iap/docs/concepts-overview).
-
-Setting up IAP requires some manual steps and is fully documented [here](https://cloud.google.com/iap/docs/enabling-kubernetes-howto).
 
 ### 5. Connecting to your Chainlink Node
 The output of the script will provide you with an IP address, a chainlink node password (api-credentials) and a wallet password for your ethereum wallet of the node.
@@ -72,7 +68,12 @@ Expected output should look as follows:
 
 ![script output](imgs/output.png)
 
-### 5. Donations
+### 6. (Optional) Protecting your node using Cloud IAP
+Using Cloud IAP, you can protect your node running on GKE from unauthorized access even before authenticating to the node itself, without the need of a VPN connection. Using IAP, Google will ensure correct Authentication and Authorization before allowing access to the actual node. More details about the concept can be [found here](https://cloud.google.com/iap/docs/concepts-overview).
+
+Setting up IAP requires some manual steps and is fully documented [here](https://cloud.google.com/iap/docs/enabling-kubernetes-howto). Be aware IAP works with HTTPS which will require you to link a domain name to the Google Cloud Load Balancer IP.
+
+### 6. Donations
 If you like this project and want to support further development:
 
 `BTC: 36PX1UfcCt3BYiVvvd6vyJM9totHPLqBzo`  
