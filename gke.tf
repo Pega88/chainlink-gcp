@@ -30,7 +30,7 @@ resource "google_container_cluster" "gke-cluster" {
 
 resource "google_container_node_pool" "main_nodes" {
   name = "main-nodes"
-  cluster    = "${google_container_cluster.gke-cluster.name}"
+  cluster    = google_container_cluster.gke-cluster.name
   node_count = 3
 
   node_config {
@@ -42,7 +42,7 @@ resource "google_container_node_pool" "main_nodes" {
     metadata = {
       disable-legacy-endpoints = "true"
     }
-    service_account = "${google_service_account.gke-nodes.email}"
+    service_account = google_service_account.gke-nodes.email
 
     oauth_scopes = [
       "cloud-platform"

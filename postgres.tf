@@ -33,8 +33,8 @@ resource "kubernetes_config_map" "postgres" {
 
   data = {
     "POSTGRES_DB" = "chainlink"
-    "POSTGRES_USER" = "${var.postgres_username}"
-    "POSTGRES_PASSWORD" = "${random_password.postgres-password.result}"
+    "POSTGRES_USER" = var.postgres_username
+    "POSTGRES_PASSWORD" = random_password.postgres-password.result
   }
 }
 

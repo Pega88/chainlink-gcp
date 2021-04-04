@@ -13,10 +13,9 @@ data "google_client_config" "default" {
   Configure provider
  *****************************************/
 provider "kubernetes" {
-  load_config_file       = false
-  host                   = "https://${google_container_cluster.gke-cluster.endpoint}"
-  token                  = "${data.google_client_config.default.access_token}"
-  cluster_ca_certificate = "${base64decode(google_container_cluster.gke-cluster.master_auth.0.cluster_ca_certificate)}"
+  host                   = format("https://%s",google_container_cluster.gke-cluster.endpoint)
+  token                  = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(google_container_cluster.gke-cluster.master_auth.0.cluster_ca_certificate)
 }
 
 
@@ -33,7 +32,7 @@ resource "kubernetes_config_map" "chainlink-env" {
   }
 
   data = {
-    #"env" = "${file("config/.env")}"
+    #"env" = "file("config/.env""
     ROOT = "/chainlink"
     LOG_LEVEL = "debug"
     ETH_CHAIN_ID = 3
@@ -44,7 +43,7 @@ resource "kubernetes_config_map" "chainlink-env" {
     ORACLE_CONTRACT_ADDRESS = "0x9f37f5f695cc16bebb1b227502809ad0fb117e08"
     ALLOW_ORIGINS = "*"
     MINIMUM_CONTRACT_PAYMENT = 100
-    DATABASE_URL = "postgresql://${var.postgres_username}:${random_password.postgres-password.result}@postgres:5432/chainlink?sslmode=disable"
+    DATABASE_URL = format("postgresql://%s:%s@postgres:5432/chainlink?sslmode=disable",var.postgres_username,random_password.postgres-password.result)
     DATABASE_TIMEOUT = 0
     ETH_URL = "wss://ropsten-rpc.linkpool.io/ws"
   }
@@ -62,12 +61,12 @@ resource "random_password" "wallet-password" {
 }
 
 output "api-credentials" {
-  value = "${random_password.api-password.result}"
+  value = random_password.api-password.result
   #sensitive   = true #to hide output
 }
 
 output "wallet-credentials" {
-  value = "${random_password.wallet-password.result}"
+  value = random_password.wallet-password.result
   #sensitive   = true #to hide output
 }
 
@@ -78,7 +77,7 @@ resource "kubernetes_secret" "api-credentials" {
   }
 
   data = {
-    api = "${var.node_username}\n${random_password.api-password.result}"
+    api = format("%s\n%s",var.node_username,random_password.api-password.result)
 
   }
 }
@@ -90,7 +89,7 @@ resource "kubernetes_secret" "password-credentials" {
   }
 
   data = {
-    password = "${random_password.wallet-password.result}"
+    password = random_password.wallet-password.result
   }
 }
 
@@ -123,7 +122,7 @@ resource "kubernetes_deployment" "chainlink-node" {
       }
       spec {
         container {
-          image = "smartcontract/chainlink:0.7.5"
+          image = "smartcontract/chainlink:0.10.3"
           name  = "chainlink-node"
           port {
             container_port = 6688
@@ -191,9 +190,9 @@ resource "kubernetes_ingress" "chainlink_ingress" {
     name = "chainlink-ingress"
     namespace = "chainlink"
     annotations = {
-      #"ingress.gcp.kubernetes.io/pre-shared-cert" = "${ var.ssl_cert_name }"
+      #"ingress.gcp.kubernetes.io/pre-shared-cert" = var.ssl_cert_name
       #"kubernetes.io/ingress.allow-http"=false
-      "kubernetes.io/ingress.global-static-ip-name" = "${google_compute_global_address.chainlink-node.name}"
+      "kubernetes.io/ingress.global-static-ip-name" = google_compute_global_address.chainlink-node.name
     }
   }
   spec {
