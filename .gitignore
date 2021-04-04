@@ -5,3 +5,5 @@ terraform.tfstate
 terraform.tfstate*
 tf.plan
 chainlink.tfvars
+.terraform.lock.hcl
+.terraform.tfstate.lock.info
