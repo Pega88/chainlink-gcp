@@ -32,7 +32,7 @@ resource "kubernetes_config_map" "chainlink-env" {
   }
 
   data = {
-    #"env" = "file("config/.env""
+    #"env" = file("config/.env")
     ROOT = "/chainlink"
     LOG_LEVEL = "debug"
     ETH_CHAIN_ID = 3
@@ -122,7 +122,7 @@ resource "kubernetes_deployment" "chainlink-node" {
       }
       spec {
         container {
-          image = "smartcontract/chainlink:0.10.3"
+          image = "smartcontract/chainlink:0.7.5"
           name  = "chainlink-node"
           port {
             container_port = 6688
