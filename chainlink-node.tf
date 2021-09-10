@@ -39,7 +39,7 @@ resource "kubernetes_namespace" "chainlink" {
 resource "kubernetes_config_map" "chainlink-env" {
   metadata {
     name      = "chainlink-env"
-    namespace = "chainlink"
+    namespace = kubernetes_namespace.chainlink.metadata.0.name
   }
 
   data = {
@@ -58,9 +58,6 @@ resource "kubernetes_config_map" "chainlink-env" {
     DATABASE_TIMEOUT           = 0
     ETH_URL                    = "wss://ropsten-rpc.linkpool.io/ws"
   }
-  depends_on = [
-    kubernetes_namespace.chainlink
-  ]
 }
 
 
@@ -77,29 +74,23 @@ resource "random_password" "wallet-password" {
 resource "kubernetes_secret" "api-credentials" {
   metadata {
     name      = "api-credentials"
-    namespace = "chainlink"
+    namespace = kubernetes_namespace.chainlink.metadata.0.name
   }
 
   data = {
     api = format("%s\n%s", var.node_username, random_password.api-password.result)
   }
-  depends_on = [
-    kubernetes_namespace.chainlink
-  ]
 }
 
 resource "kubernetes_secret" "password-credentials" {
   metadata {
     name      = "password-credentials"
-    namespace = "chainlink"
+    namespace = kubernetes_namespace.chainlink.metadata.0.name
   }
 
   data = {
     password = random_password.wallet-password.result
   }
-  depends_on = [
-    kubernetes_namespace.chainlink
-  ]
 }
 
 
@@ -108,7 +99,7 @@ resource "kubernetes_secret" "password-credentials" {
 resource "kubernetes_deployment" "chainlink-node" {
   metadata {
     name      = "chainlink"
-    namespace = "chainlink"
+    namespace = kubernetes_namespace.chainlink.metadata.0.name
     labels = {
       app = "chainlink-node"
     }
@@ -172,15 +163,12 @@ resource "kubernetes_deployment" "chainlink-node" {
       }
     }
   }
-  depends_on = [
-    kubernetes_namespace.chainlink
-  ]
 }
 
 resource "kubernetes_service" "chainlink_service" {
   metadata {
     name      = "chainlink-node"
-    namespace = "chainlink"
+    namespace = kubernetes_namespace.chainlink.metadata.0.name
   }
   spec {
     selector = {
@@ -191,9 +179,6 @@ resource "kubernetes_service" "chainlink_service" {
       port = 6688
     }
   }
-  depends_on = [
-    kubernetes_namespace.chainlink
-  ]
 }
 
 resource "google_compute_global_address" "chainlink-node" {
@@ -203,7 +188,7 @@ resource "google_compute_global_address" "chainlink-node" {
 resource "kubernetes_ingress" "chainlink_ingress" {
   metadata {
     name      = "chainlink-ingress"
-    namespace = "chainlink"
+    namespace = kubernetes_namespace.chainlink.metadata.0.name
     annotations = {
       #"ingress.gcp.kubernetes.io/pre-shared-cert" = var.ssl_cert_name
       #"kubernetes.io/ingress.allow-http"=false
@@ -216,9 +201,6 @@ resource "kubernetes_ingress" "chainlink_ingress" {
       service_port = 6688
     }
   }
-  depends_on = [
-    kubernetes_namespace.chainlink
-  ]
 }
 
 output "chainlink_ip" {
