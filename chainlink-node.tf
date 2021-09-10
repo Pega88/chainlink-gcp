@@ -56,7 +56,7 @@ resource "kubernetes_config_map" "chainlink-env" {
     MINIMUM_CONTRACT_PAYMENT   = 100
     DATABASE_URL               = format("postgresql://%s:%s@postgres:5432/chainlink?sslmode=disable", var.postgres_username, random_password.postgres-password.result)
     DATABASE_TIMEOUT           = 0
-    ETH_URL                    = "wss://ropsten-rpc.linkpool.io/ws"
+    ETH_URL                    = "wss://rinkeby-light.eth.linkpool.io/ws"
   }
 }
 
