@@ -17,10 +17,6 @@ resource "google_container_cluster" "gke-cluster" {
   initial_node_count       = 3
 
   enable_legacy_abac = false
-
-  depends_on = [
-    google_project_service.container_api
-  ]
 }
 
 resource "google_container_node_pool" "main_nodes" {
