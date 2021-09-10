@@ -24,7 +24,7 @@ resource "google_container_cluster" "gke-cluster" {
 }
 
 resource "google_container_node_pool" "main_nodes" {
-  name = "main-nodes"
+  name       = "main-nodes"
   cluster    = google_container_cluster.gke-cluster.name
   node_count = 3
 

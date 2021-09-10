@@ -11,7 +11,7 @@ resource "random_password" "postgres-password" {
 
 resource "kubernetes_service" "postgres" {
   metadata {
-    name = "postgres"
+    name      = "postgres"
     namespace = "chainlink"
   }
   spec {
@@ -32,20 +32,20 @@ resource "kubernetes_config_map" "postgres" {
   }
 
   data = {
-    "POSTGRES_DB" = "chainlink"
-    "POSTGRES_USER" = var.postgres_username
+    "POSTGRES_DB"       = "chainlink"
+    "POSTGRES_USER"     = var.postgres_username
     "POSTGRES_PASSWORD" = random_password.postgres-password.result
   }
 }
 
 resource "kubernetes_stateful_set" "postgres" {
   metadata {
-    name = "postgres"
+    name      = "postgres"
     namespace = "chainlink"
   }
 
   spec {
-    replicas = 1 #multiple replicas here on master would create multiple volumes
+    replicas     = 1 #multiple replicas here on master would create multiple volumes
     service_name = "postgres"
     selector {
       match_labels = {
@@ -60,8 +60,8 @@ resource "kubernetes_stateful_set" "postgres" {
       }
       spec {
         container {
-          name              = "postgres"
-          image             = "postgres:9.6.17"
+          name  = "postgres"
+          image = "postgres:9.6.17"
 
           env_from {
             config_map_ref {
@@ -71,13 +71,13 @@ resource "kubernetes_stateful_set" "postgres" {
 
           port {
             container_port = 5432
-            name = "postgres"
+            name           = "postgres"
           }
 
           volume_mount {
             name       = "postgresdb"
             mount_path = "/var/lib/postgresql/data"
-            sub_path = "postgres"
+            sub_path   = "postgres"
           }
         }
       }

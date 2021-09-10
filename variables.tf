@@ -1,32 +1,32 @@
-variable project_name {
+variable "project_name" {
   description = "Project name"
   type        = string
 }
-variable cluster_name {
+variable "cluster_name" {
   description = "GKE cluster name"
   type        = string
   default     = "chainlink-cluster"
 }
 
-variable gcp_region {
+variable "gcp_region" {
   description = "GCP resource region"
   type        = string
-  default = "europe-west1"
+  default     = "europe-west1"
 }
 
-variable gcp_zone {
+variable "gcp_zone" {
   description = "GCP resource zone"
   type        = string
-  default = "europe-west1-d"
+  default     = "europe-west1-d"
 }
 
-variable node_username {
+variable "node_username" {
   description = "Chainlink node admin username"
   type        = string
   default     = "admin"
 }
 
-variable postgres_username {
+variable "postgres_username" {
   description = "Postgres admin username"
   type        = string
   default     = "admin"
