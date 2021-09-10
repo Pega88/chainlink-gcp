@@ -11,9 +11,16 @@ Make sure you can run the following command to validate gcloud is installed corr
 gcloud auth list
 ```
 
-You will also need to install [Terraform](https://www.terraform.io/). This setup has been tested with version `0.14.9`. Run the following to confirm your version:
+You will also need to install [Terraform](https://www.terraform.io/). This setup has been tested with version `1.0.6`. Run the following to confirm your version:
 ```bash
 terraform version
+```
+
+To manage multiple versions of Terraform in your environment, consider using [tfenv](https://github.com/tfutils/tfenv):
+
+```
+tfenv install 1.0.6
+tfenv use 1.0.6
 ```
 
 ## Changelog

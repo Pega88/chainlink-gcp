@@ -1,3 +1,6 @@
+terraform {
+  required_version = ">= 1.0.6"
+}
 provider "google" {
   credentials = file("key.json")
   project     = var.project_name
