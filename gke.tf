@@ -1,8 +1,3 @@
-resource "google_project_service" "container_api" {
-  service                    = "container.googleapis.com"
-  disable_dependent_services = true
-}
-
 resource "google_service_account" "gke-nodes" {
   account_id   = "cl-gke-nodes"
   display_name = "Service Account used by Kubernetes Cluster"

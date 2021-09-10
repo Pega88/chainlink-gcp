@@ -23,6 +23,17 @@ resource "kubernetes_namespace" "chainlink" {
   metadata {
     name = "chainlink"
   }
+  depends_on = [
+    /* Normally the endpoint is populated as soon as it is known to Terraform.
+      * However, the cluster may not be in a usable state yet.  Therefore any
+      * resources dependent on the cluster being up will fail to deploy.  With
+      * this explicit dependency, dependent resources can wait for the cluster
+      * to be up.
+      */
+    google_container_cluster.gke-cluster,
+    google_container_node_pool.main_nodes
+  ]
+
 }
 
 resource "kubernetes_config_map" "chainlink-env" {
@@ -47,6 +58,9 @@ resource "kubernetes_config_map" "chainlink-env" {
     DATABASE_TIMEOUT = 0
     ETH_URL = "wss://ropsten-rpc.linkpool.io/ws"
   }
+  depends_on = [
+    kubernetes_namespace.chainlink
+  ]
 }
 
 
@@ -60,16 +74,6 @@ resource "random_password" "wallet-password" {
   special = false
 }
 
-output "api-credentials" {
-  value = random_password.api-password.result
-  #sensitive   = true #to hide output
-}
-
-output "wallet-credentials" {
-  value = random_password.wallet-password.result
-  #sensitive   = true #to hide output
-}
-
 resource "kubernetes_secret" "api-credentials" {
   metadata {
     name      = "api-credentials"
@@ -78,8 +82,10 @@ resource "kubernetes_secret" "api-credentials" {
 
   data = {
     api = format("%s\n%s",var.node_username,random_password.api-password.result)
-
   }
+  depends_on = [
+    kubernetes_namespace.chainlink
+  ]
 }
 
 resource "kubernetes_secret" "password-credentials" {
@@ -91,6 +97,9 @@ resource "kubernetes_secret" "password-credentials" {
   data = {
     password = random_password.wallet-password.result
   }
+  depends_on = [
+    kubernetes_namespace.chainlink
+  ]
 }
 
 
@@ -163,6 +172,9 @@ resource "kubernetes_deployment" "chainlink-node" {
       }
     }
   }
+  depends_on = [
+    kubernetes_namespace.chainlink
+  ]
 }
 
 resource "kubernetes_service" "chainlink_service" {
@@ -179,6 +191,9 @@ resource "kubernetes_service" "chainlink_service" {
       port = 6688
     }
   }
+  depends_on = [
+    kubernetes_namespace.chainlink
+  ]
 }
 
 resource "google_compute_global_address" "chainlink-node" {
@@ -201,6 +216,9 @@ resource "kubernetes_ingress" "chainlink_ingress" {
       service_port = 6688
     }
   }
+  depends_on = [
+    kubernetes_namespace.chainlink
+  ]
 }
 
 output "chainlink_ip" {

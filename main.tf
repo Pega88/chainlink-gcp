@@ -1,3 +1,6 @@
+terraform {
+  required_version = ">= 1.0.6"
+}
 provider "google" {
   credentials = file("key.json")
   project     = var.project_name
@@ -13,3 +16,27 @@ provider "google" {
 #     credentials = "key.json"
 #   }
 # }
+
+
+#Google APIs
+resource "google_project_service" "compute_api" {
+  service  = "compute.googleapis.com"
+  disable_dependent_services = false
+  disable_on_destroy         = false
+}
+resource "google_project_service" "container_api" {
+  service  = "compute.googleapis.com"
+  disable_dependent_services = false
+  disable_on_destroy         = false
+  depends_on = [
+    google_project_service.compute_api
+  ]
+}
+resource "google_project_service" "cloudresourcemanager_api" {
+  service  = "compute.googleapis.com"
+  disable_dependent_services = false
+  disable_on_destroy         = false
+  depends_on = [
+    google_project_service.container_api
+  ]
+}

@@ -7,3 +7,4 @@ tf.plan
 chainlink.tfvars
 .terraform.lock.hcl
 .terraform.tfstate.lock.info
+.idea/**
