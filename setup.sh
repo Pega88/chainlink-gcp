@@ -82,3 +82,6 @@ terraform plan -var-file="chainlink.tfvars" --out tf.plan
 read -p "Press enter to continue"
 
 terraform apply tf.plan
+
+#explicitly show sensitive output
+terraform output -json

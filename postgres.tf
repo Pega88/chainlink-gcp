@@ -12,7 +12,7 @@ resource "random_password" "postgres-password" {
 resource "kubernetes_service" "postgres" {
   metadata {
     name      = "postgres"
-    namespace = "chainlink"
+    namespace = kubernetes_namespace.chainlink.metadata.0.name
   }
   spec {
     selector = {
@@ -23,12 +23,15 @@ resource "kubernetes_service" "postgres" {
       target_port = 5432
     }
   }
+  depends_on = [
+    kubernetes_stateful_set.postgres
+  ]
 }
 
 resource "kubernetes_config_map" "postgres" {
   metadata {
     name      = "postgres"
-    namespace = "chainlink"
+    namespace = kubernetes_namespace.chainlink.metadata.0.name
   }
 
   data = {
@@ -41,7 +44,7 @@ resource "kubernetes_config_map" "postgres" {
 resource "kubernetes_stateful_set" "postgres" {
   metadata {
     name      = "postgres"
-    namespace = "chainlink"
+    namespace = kubernetes_namespace.chainlink.metadata.0.name
   }
 
   spec {

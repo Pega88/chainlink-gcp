@@ -163,6 +163,10 @@ resource "kubernetes_deployment" "chainlink-node" {
       }
     }
   }
+
+  depends_on = [
+    kubernetes_service.postgres
+  ]
 }
 
 resource "kubernetes_service" "chainlink_service" {
