@@ -19,12 +19,13 @@ SA_NAME=cl-terraform
 printf "Using Google Cloud Project: ${BLUE}$PROJECT_ID\n${normal}"
 printf "Chainlink admin username: ${BLUE}$USER_EMAIL\n${normal}\n"
 
-
 #enable the required API Services
 gcloud services enable compute.googleapis.com --project $PROJECT_ID
 gcloud services enable container.googleapis.com --project $PROJECT_ID
 gcloud services enable cloudresourcemanager.googleapis.com --project $PROJECT_ID
-
+gcloud services enable serviceusage.googleapis.com --project $PROJECT_ID
+gcloud services enable iam.googleapis.com --project $PROJECT_ID
+gcloud services enable cloudbilling.googleapis.com --project $PROJECT_ID
 
 #check if SA exists from a previous run
 SA_EMAIL=$(gcloud --project $PROJECT_ID iam service-accounts list \
@@ -76,8 +77,14 @@ case `uname` in
 esac
 
 
-terraform init .
+terraform init
 
 terraform plan -var-file="chainlink.tfvars" --out tf.plan
 
+#option to review/cancel
+read -p "Press enter to continue"
+
 terraform apply tf.plan
+
+#explicitly show sensitive output
+terraform output -json
