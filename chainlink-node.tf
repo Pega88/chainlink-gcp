@@ -46,16 +46,16 @@ resource "kubernetes_config_map" "chainlink-env" {
     #"env" = file("config/.env")
     ROOT                       = "/chainlink"
     LOG_LEVEL                  = "debug"
-    ETH_CHAIN_ID               = 3
+    ETH_CHAIN_ID               = 4
     MIN_OUTGOING_CONFIRMATIONS = 2
-    LINK_CONTRACT_ADDRESS      = "0x20fe562d797a42dcb3399062ae9546cd06f63280"
+    LINK_CONTRACT_ADDRESS      = "0x01BE23585060835E02B77ef475b0Cc51aA1e0709"
     CHAINLINK_TLS_PORT         = 0
     SECURE_COOKIES             = false
     GAS_UPDATER_ENABLED        = true
     ALLOW_ORIGINS              = "*"
     DATABASE_URL               = format("postgresql://%s:%s@postgres:5432/chainlink?sslmode=disable", var.postgres_username, random_password.postgres-password.result)
     DATABASE_TIMEOUT           = 0
-    ETH_URL                    = "wss://ropsten.infura.io/ws/v3/a13a37a22d784e39926def7c35e9e415"
+    ETH_URL                    = "wss://rinkeby.infura.io/ws/v3/a13a37a22d784e39926def7c35e9e415"
   }
   #BRIT: Added dependency on namespace creation.
   depends_on = [kubernetes_namespace.chainlink]
