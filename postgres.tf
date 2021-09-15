@@ -11,8 +11,8 @@ resource "random_password" "postgres-password" {
 
 resource "kubernetes_service" "postgres" {
   metadata {
-    name = "postgres"
-    namespace = "chainlink"
+    name      = "postgres"
+    namespace = kubernetes_namespace.chainlink.metadata.0.name
   }
   spec {
     selector = {
@@ -23,29 +23,36 @@ resource "kubernetes_service" "postgres" {
       target_port = 5432
     }
   }
+  depends_on = [
+    kubernetes_stateful_set.postgres
+  ]
 }
 
 resource "kubernetes_config_map" "postgres" {
   metadata {
     name      = "postgres"
-    namespace = "chainlink"
+    namespace = kubernetes_namespace.chainlink.metadata.0.name
   }
 
   data = {
-    "POSTGRES_DB" = "chainlink"
-    "POSTGRES_USER" = var.postgres_username
+    "POSTGRES_DB"       = "chainlink"
+    "POSTGRES_USER"     = var.postgres_username
     "POSTGRES_PASSWORD" = random_password.postgres-password.result
   }
+ #BRIT: Added dependency on namespace creation.
+  depends_on = [
+  	kubernetes_namespace.chainlink
+  ]
 }
 
 resource "kubernetes_stateful_set" "postgres" {
   metadata {
-    name = "postgres"
-    namespace = "chainlink"
+    name      = "postgres"
+    namespace = kubernetes_namespace.chainlink.metadata.0.name
   }
 
   spec {
-    replicas = 1 #multiple replicas here on master would create multiple volumes
+    replicas     = 1 #multiple replicas here on master would create multiple volumes
     service_name = "postgres"
     selector {
       match_labels = {
@@ -60,8 +67,8 @@ resource "kubernetes_stateful_set" "postgres" {
       }
       spec {
         container {
-          name              = "postgres"
-          image             = "postgres:9.6.17"
+          name  = "postgres"
+          image = "postgres:13.3" #BRIT: Updated to highest current release from 9.6.17
 
           env_from {
             config_map_ref {
@@ -71,13 +78,13 @@ resource "kubernetes_stateful_set" "postgres" {
 
           port {
             container_port = 5432
-            name = "postgres"
+            name           = "postgres"
           }
 
           volume_mount {
             name       = "postgresdb"
             mount_path = "/var/lib/postgresql/data"
-            sub_path = "postgres"
+            sub_path   = "postgres"
           }
         }
       }
@@ -98,4 +105,8 @@ resource "kubernetes_stateful_set" "postgres" {
       }
     }
   }
+  #BRIT: Added dependency on main node creation & a config_map.
+  depends_on = [
+  	google_container_node_pool.main_nodes, kubernetes_config_map.postgres
+  ]
 }
